@@ -1,0 +1,82 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Conditional Probability | Intro</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="script.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <div class="wrap topbar-inner">
+      <div class="brand">🎲 Conditional Probability</div>
+      <nav class="nav">
+        <a class="navlink" href="index.html">Intro</a>
+        <a class="navlink" href="practice.html">Practice</a>
+        <a class="navlink" href="solutions.html">Solutions</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="card">
+      <h1>What is conditional probability?</h1>
+      <p>
+        <strong>Conditional probability</strong> is the probability of an event happening
+        <em>given that</em> another event has already happened.
+      </p>
+
+      <div class="mathbox" aria-label="Conditional probability formula">
+        <div class="mathline">
+          <span class="mono">P(A | B) =</span>
+          <span class="mono">P(A ∩ B) / P(B)</span>
+          <span class="mono">(when P(B) &gt; 0)</span>
+        </div>
+      </div>
+
+      <h2>How to think about it</h2>
+      <ul>
+        <li><strong>“Given B”</strong> means your sample space shrinks to only outcomes where <strong>B</strong> happened.</li>
+        <li>Then you ask: <strong>within that smaller world</strong>, how often does <strong>A</strong> happen?</li>
+      </ul>
+    </section>
+
+    <section class="grid2">
+      <section class="card">
+        <h2>Quick example (numbers)</h2>
+        <p>
+          Suppose <span class="mono">P(A)=0.3</span>, <span class="mono">P(B)=0.5</span>,
+          and <span class="mono">P(A ∩ B)=0.15</span>.
+        </p>
+        <p>
+          Then <span class="mono">P(A | B)=0.15/0.5=0.3</span>.
+        </p>
+        <p class="muted">Same probability as P(A) here — but that’s not always the case.</p>
+      </section>
+
+      <section class="card">
+        <h2>Quick example (sample space)</h2>
+        <p>Roll two fair dice.</p>
+        <p>
+          Given that the <strong>sum is 8</strong>, the possible outcomes are:
+          <span class="mono">(2,6) (3,5) (4,4) (5,3) (6,2)</span>.
+        </p>
+        <p>
+          So <span class="mono">P(first die is 3 | sum is 8) = 1/5</span>.
+        </p>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Ready?</h2>
+      <p>Head to Practice for questions that ramp up from basic to Bayes’ theorem.</p>
+      <a class="btn" href="practice.html">Go to Practice →</a>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="wrap muted">Tip: “Given” shrinks the world. Work inside that world.</div>
+  </footer>
+</body>
+</html>
