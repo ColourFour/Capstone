@@ -1,17 +1,15 @@
 //1000 digit fib number
-let previousTerm = 2n;
-let currentTerm = 1n;
-let nextTerm = 1n;
-let count = 0
+let fibSeq = [1, 1];
+let sum = 1;
+const limit = 10n ** 1000n;  // 10^1000 as BigInt
 
-while(nextTerm < 10n ** 999n){
-    previousTerm = currentTerm;
-    currentTerm = nextTerm;
-    nextTerm = currentTerm + previousTerm;
-    count += 1;
-}
+while(fibSeq[1] < limit){
+    sum += 1;
+    let a = BigInt(fibSeq[0])
+    let b = BigInt(fibSeq[1])
+    let c = BigInt(a + b);
+    fibSeq = [b, c]
+} 
 
-console.log(count);
-console.log(nextTerm);
-
+console.log(sum)
 //node fibSeq.js

@@ -1,0 +1,83 @@
+// engine.js
+
+const CWK = 1 << 0;
+const CWQ = 1 << 1;
+const CBK = 1 << 2;
+const CBQ = 1 << 3;
+
+const F_CAPTURE = 1 << 0;
+const F_EP = 1 << 1;
+const F_CASTLE = 1 << 2;
+const F_PROMO = 1 << 3;
+const F_PAWN2 = 1 << 4;
+
+const PAWN = 1;
+const KNIGHT = 2;
+const BISHOP = 3;
+const ROOK = 4;
+const QUEEN = 5;
+const KING = 6;
+
+const WHITE = 0;
+const BLACK = 1;
+
+const PIECES = {
+  P: PAWN,
+  N: KNIGHT,
+  B: BISHOP,
+  R: ROOK,
+  Q: QUEEN,
+  K: KING
+};
+
+const PIECE_LETTERS = ['P', 'N', 'B', 'R', 'Q', 'K'];
+
+function toFEN(board) {
+  let fen = '';
+  for (let rank = 7; rank >= 0; rank--) {
+    let empty = 0;
+    for (let file = 0; file < 8; file++) {
+      const piece = board[rank * 8 + file];
+      if (!piece) {
+        empty++;
+      } else {
+        if (empty > 0) {
+          fen += empty;
+          empty = 0;
+        }
+        fen += piece.color === WHITE ? piece.type.toUpperCase() : piece.type.toLowerCase();
+      }
+    }
+    if (empty > 0) fen += empty;
+    if (rank > 0) fen += '/';
+  }
+  return fen;
+}
+
+function fromFEN(fen) {
+  const board = new Array(64).fill(null);
+  let rank = 7;
+  let file = 0;
+  for (let i = 0; i < fen.length; i++) {
+    const c = fen[i];
+    if (c === '/') {
+      rank--;
+      file = 0;
+    } else if (c >= '1' && c <= '8') {
+      file += parseInt(c, 10);
+    } else {
+      const color = c === c.toUpperCase() ? WHITE : BLACK;
+      const type = PIECES[c.toUpperCase()];
+      board[rank * 8 + file] = { type, color };
+      file++;
+    }
+  }
+  return board;
+}
+
+// Debug exports (safe to ignore in UI)
+export const _internals = {
+  toFEN,
+  fromFEN,
+  constants: { CWK, CWQ, CBK, CBQ, F_CAPTURE, F_EP, F_CASTLE, F_PROMO, F_PAWN2 }
+};
