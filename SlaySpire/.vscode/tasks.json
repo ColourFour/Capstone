@@ -1,0 +1,14 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Run Slay the Spire Agent",
+			"type": "shell",
+			"command": "/Users/sbrooker/repos/SlaySpire/.venv/bin/python src/main.py",
+			"args": [],
+			"isBackground": true,
+			"problemMatcher": [],
+			"group": ""
+		}
+	]
+}
