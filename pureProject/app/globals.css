@@ -1,0 +1,25 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+}
+
+body {
+  @apply bg-sky text-ink antialiased;
+  background-image:
+    radial-gradient(circle at top left, rgba(14, 165, 233, 0.12), transparent 24rem),
+    radial-gradient(circle at bottom right, rgba(245, 158, 11, 0.10), transparent 20rem);
+}
+
+a {
+  @apply text-inherit no-underline;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+}

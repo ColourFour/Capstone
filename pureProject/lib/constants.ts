@@ -1,0 +1,8 @@
+export const DEMO_USER_COOKIE = "demo_user_id";
+
+export const DEMO_USERS = {
+  teacher: "00000000-0000-4000-8000-000000000001",
+  studentA: "00000000-0000-4000-8000-000000000101",
+  studentB: "00000000-0000-4000-8000-000000000102",
+  studentC: "00000000-0000-4000-8000-000000000103"
+} as const;
