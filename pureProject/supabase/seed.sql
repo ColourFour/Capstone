@@ -1,37 +1,39 @@
 do $$
 declare
-  teacher_id uuid := '00000000-0000-4000-8000-000000000001';
-  student_a uuid := '00000000-0000-4000-8000-000000000101';
-  student_b uuid := '00000000-0000-4000-8000-000000000102';
-  student_c uuid := '00000000-0000-4000-8000-000000000103';
-  class_id uuid := '10000000-0000-4000-8000-000000000001';
-  unit_id uuid := '20000000-0000-4000-8000-000000000001';
-  version_id uuid := '20000000-0000-4000-8000-000000000002';
+  v_teacher_id uuid := '00000000-0000-4000-8000-000000000001';
+  v_student_a uuid := '00000000-0000-4000-8000-000000000101';
+  v_student_b uuid := '00000000-0000-4000-8000-000000000102';
+  v_student_c uuid := '00000000-0000-4000-8000-000000000103';
+  v_class_id uuid := '10000000-0000-4000-8000-000000000001';
+  v_unit_id uuid := '20000000-0000-4000-8000-000000000001';
+  v_version_id uuid := '20000000-0000-4000-8000-000000000002';
   v_assignment_id uuid := '30000000-0000-4000-8000-000000000001';
-  node_intro uuid := '40000000-0000-4000-8000-000000000001';
-  node_starter uuid := '40000000-0000-4000-8000-000000000002';
-  node_hint uuid := '40000000-0000-4000-8000-000000000003';
-  node_sign_example uuid := '40000000-0000-4000-8000-000000000004';
-  node_worked_example uuid := '40000000-0000-4000-8000-000000000005';
-  node_recovery uuid := '40000000-0000-4000-8000-000000000006';
-  node_extension uuid := '40000000-0000-4000-8000-000000000007';
-  node_core_checkpoint uuid := '40000000-0000-4000-8000-000000000008';
-  node_review uuid := '40000000-0000-4000-8000-000000000009';
-  node_finish uuid := '40000000-0000-4000-8000-000000000010';
+  v_node_intro uuid := '40000000-0000-4000-8000-000000000001';
+  v_node_basic_check uuid := '40000000-0000-4000-8000-000000000002';
+  v_node_basic_remediation uuid := '40000000-0000-4000-8000-000000000003';
+  v_node_graph_check uuid := '40000000-0000-4000-8000-000000000004';
+  v_node_graph_remediation uuid := '40000000-0000-4000-8000-000000000005';
+  v_node_transform_check uuid := '40000000-0000-4000-8000-000000000006';
+  v_node_transform_remediation uuid := '40000000-0000-4000-8000-000000000007';
+  v_node_inequality_check uuid := '40000000-0000-4000-8000-000000000008';
+  v_node_inequality_remediation uuid := '40000000-0000-4000-8000-000000000009';
+  v_node_boss uuid := '40000000-0000-4000-8000-000000000010';
+  v_node_completion uuid := '40000000-0000-4000-8000-000000000011';
+  v_node_boss_remediation uuid := '40000000-0000-4000-8000-000000000012';
 begin
   insert into public.profiles (id, display_name, email, role)
   values
-    (teacher_id, 'Ms. Rivera', 'teacher.demo@example.com', 'teacher'),
-    (student_a, 'Ava Chen', 'ava.demo@example.com', 'student'),
-    (student_b, 'Noah Patel', 'noah.demo@example.com', 'student'),
-    (student_c, 'Mia Johnson', 'mia.demo@example.com', 'student')
+    (v_teacher_id, 'Ms. Rivera', 'teacher.demo@example.com', 'teacher'),
+    (v_student_a, 'Ava Chen', 'ava.demo@example.com', 'student'),
+    (v_student_b, 'Noah Patel', 'noah.demo@example.com', 'student'),
+    (v_student_c, 'Mia Johnson', 'mia.demo@example.com', 'student')
   on conflict (id) do update set
     display_name = excluded.display_name,
     email = excluded.email,
     role = excluded.role;
 
   insert into public.classes (id, name, teacher_id, subject, academic_year)
-  values (class_id, 'Algebra 1 - Period 2', teacher_id, 'Mathematics', '2025-2026')
+  values (v_class_id, 'Algebra 1 - Period 2', v_teacher_id, 'Mathematics', '2025-2026')
   on conflict (id) do update set
     name = excluded.name,
     teacher_id = excluded.teacher_id,
@@ -40,18 +42,18 @@ begin
 
   insert into public.class_enrollments (class_id, student_id, status)
   values
-    (class_id, student_a, 'active'),
-    (class_id, student_b, 'active'),
-    (class_id, student_c, 'active')
+    (v_class_id, v_student_a, 'active'),
+    (v_class_id, v_student_b, 'active'),
+    (v_class_id, v_student_c, 'active')
   on conflict (class_id, student_id) do update set status = excluded.status;
 
   insert into public.units (id, title, subject, description, created_by)
   values (
-    unit_id,
-    'Solving One-Step Equations',
+    v_unit_id,
+    'Introduction to Modulus',
     'Mathematics',
-    'A branching lesson on balancing equations and diagnosing early misconceptions.',
-    teacher_id
+    'A branching introduction to modulus as distance, graphing simple absolute value functions, and solving basic equations and inequalities.',
+    v_teacher_id
   )
   on conflict (id) do update set
     title = excluded.title,
@@ -60,7 +62,7 @@ begin
     created_by = excluded.created_by;
 
   insert into public.unit_versions (id, unit_id, version_number, status, published_at)
-  values (version_id, unit_id, 1, 'published', timezone('utc', now()))
+  values (v_version_id, v_unit_id, 1, 'published', timezone('utc', now()))
   on conflict (id) do update set
     unit_id = excluded.unit_id,
     version_number = excluded.version_number,
@@ -80,186 +82,245 @@ begin
   )
   values
     (
-      node_intro,
-      version_id,
+      v_node_intro,
+      v_version_id,
       'intro',
       'instruction',
-      'Warm-up: balancing the equation',
+      'What does |x| mean?',
       jsonb_build_object(
-        'prompt', 'Today we solve one-step equations by keeping both sides balanced.',
-        'body', 'You will branch into hints, worked examples, or extension practice depending on how you answer.',
+        'prompt', '|x| is the distance of x from 0 on the number line.',
+        'body', 'Examples: |3| = 3, |-3| = 3, and |0| = 0. This lesson introduces the core ideas behind modulus, its graph, and simple equations and inequalities.',
         'ctaLabel', 'Start lesson'
       ),
       null,
-      array['equation-solving'],
+      array['modulus', 'distance'],
       'focus'
     ),
     (
-      node_starter,
-      version_id,
-      'starter-question',
+      v_node_basic_check,
+      v_version_id,
+      'basic-check',
       'question',
-      'Starter question',
+      'Distance from zero',
       jsonb_build_object(
-        'prompt', 'Solve for x.',
-        'questionLatex', 'x - 4 = 9',
-        'answerPlaceholder', 'Enter a number'
-      ),
-      jsonb_build_object(
-        'type', 'exact_numeric',
-        'correctAnswer', '13',
-        'acceptableAnswers', jsonb_build_array('13.0'),
-        'maxScore', 20,
-        'misconceptionMap', jsonb_build_object(
-          '5', 'sign_error',
-          '-13', 'inverse_operation_confusion'
-        )
-      ),
-      array['solve-one-step-equations', 'inverse-operations'],
-      'focus'
-    ),
-    (
-      node_hint,
-      version_id,
-      'hint-balance',
-      'hint',
-      'Hint: undo the subtraction',
-      jsonb_build_object(
-        'prompt', 'Think about the inverse operation.',
-        'body', 'If 4 is being subtracted from x, what operation would undo that subtraction on both sides?',
-        'ctaLabel', 'Try again'
-      ),
-      null,
-      array['inverse-operations'],
-      'support'
-    ),
-    (
-      node_sign_example,
-      version_id,
-      'sign-error-example',
-      'worked_example',
-      'Worked example: watch the sign',
-      jsonb_build_object(
-        'prompt', 'A common mistake is subtracting 4 again and getting 5.',
-        'workedSteps', jsonb_build_array(
-          'Start with x - 4 = 9.',
-          'Add 4 to both sides, because addition undoes subtraction.',
-          'That gives x = 13.'
-        ),
-        'ctaLabel', 'Recovery practice'
-      ),
-      null,
-      array['signs', 'inverse-operations'],
-      'support'
-    ),
-    (
-      node_worked_example,
-      version_id,
-      'general-worked-example',
-      'worked_example',
-      'Worked example: isolate the variable',
-      jsonb_build_object(
-        'prompt', 'Let''s walk one through together.',
-        'workedSteps', jsonb_build_array(
-          'For y + 6 = 14, subtract 6 from both sides.',
-          '14 - 6 = 8.',
-          'So y = 8.'
-        ),
-        'ctaLabel', 'Recovery practice'
-      ),
-      null,
-      array['inverse-operations'],
-      'support'
-    ),
-    (
-      node_recovery,
-      version_id,
-      'recovery-practice',
-      'question',
-      'Recovery practice',
-      jsonb_build_object(
-        'prompt', 'Try a similar equation.',
-        'questionLatex', 'x - 7 = 6',
-        'answerPlaceholder', 'Enter a number'
-      ),
-      jsonb_build_object(
-        'type', 'exact_numeric',
-        'correctAnswer', '13',
-        'maxScore', 15
-      ),
-      array['solve-one-step-equations'],
-      'focus'
-    ),
-    (
-      node_extension,
-      version_id,
-      'extension',
-      'extension',
-      'Extension challenge',
-      jsonb_build_object(
-        'prompt', 'You got the starter correct immediately. Take on a harder one.',
-        'questionLatex', '3x = 21',
-        'answerPlaceholder', 'Enter a number'
-      ),
-      jsonb_build_object(
-        'type', 'exact_numeric',
-        'correctAnswer', '7',
-        'maxScore', 25
-      ),
-      array['challenge', 'multiplicative-equations'],
-      'focus'
-    ),
-    (
-      node_core_checkpoint,
-      version_id,
-      'core-checkpoint',
-      'checkpoint',
-      'Checkpoint: choose the right first move',
-      jsonb_build_object(
-        'prompt', 'What should you do first to solve x + 8 = 11?',
+        'prompt', 'Solve |x| = 4.',
         'choices', jsonb_build_array(
-          jsonb_build_object('label', 'Subtract 8 from both sides', 'value', 'subtract_8'),
-          jsonb_build_object('label', 'Add 8 to both sides', 'value', 'add_8'),
-          jsonb_build_object('label', 'Multiply both sides by 8', 'value', 'multiply_8')
+          jsonb_build_object('label', 'x = 4 or x = -4', 'value', 'pm_4'),
+          jsonb_build_object('label', 'x = 4 only', 'value', 'positive_only'),
+          jsonb_build_object('label', 'x = -4 only', 'value', 'negative_only'),
+          jsonb_build_object('label', 'No solution', 'value', 'none')
         )
       ),
       jsonb_build_object(
         'type', 'multiple_choice',
-        'correctAnswer', 'subtract_8',
-        'maxScore', 20,
-        'misconceptionMap', jsonb_build_object('add_8', 'wrong_inverse_operation')
+        'correctAnswer', 'pm_4',
+        'maxScore', 15
       ),
-      array['strategy-selection'],
+      array['modulus', 'equations'],
       'focus'
     ),
     (
-      node_review,
-      version_id,
-      'review-summary',
-      'review',
-      'Review the strategy',
+      v_node_basic_remediation,
+      v_version_id,
+      'basic-remediation',
+      'worked_example',
+      'Why there are two answers',
       jsonb_build_object(
-        'prompt', 'When a number is added to the variable, subtract it from both sides. When a number is subtracted, add it to both sides.',
-        'body', 'This review node lets students regroup before finishing the assignment.',
-        'ctaLabel', 'Finish lesson'
+        'prompt', '|x| = 4 means the distance from 0 is 4.',
+        'workedSteps', jsonb_build_array(
+          'A point 4 units from 0 can be at x = 4 or x = -4.',
+          'So |x| = 4 has two solutions: x = 4 and x = -4.',
+          'Likewise, |x| = 7 gives x = 7 or x = -7.'
+        ),
+        'ctaLabel', 'Continue to graphs'
       ),
       null,
-      array['inverse-operations'],
-      'reflection'
+      array['modulus', 'distance'],
+      'support'
     ),
     (
-      node_finish,
-      version_id,
-      'finish',
-      'instruction',
+      v_node_graph_check,
+      v_version_id,
+      'graph-check',
+      'question',
+      'The graph of y = |x|',
+      jsonb_build_object(
+        'prompt', 'Which statement correctly describes the graph of y = |x|?',
+        'choices', jsonb_build_array(
+          jsonb_build_object('label', 'It is V-shaped, has vertex at (0,0), and is symmetric about the y-axis.', 'value', 'v_origin'),
+          jsonb_build_object('label', 'It is a straight line through the origin with gradient 1.', 'value', 'line'),
+          jsonb_build_object('label', 'It is V-shaped with vertex at (0,2).', 'value', 'shifted_up'),
+          jsonb_build_object('label', 'It is symmetric about the x-axis.', 'value', 'x_axis')
+        )
+      ),
+      jsonb_build_object(
+        'type', 'multiple_choice',
+        'correctAnswer', 'v_origin',
+        'maxScore', 15
+      ),
+      array['graphs', 'modulus'],
+      'focus'
+    ),
+    (
+      v_node_graph_remediation,
+      v_version_id,
+      'graph-remediation',
+      'worked_example',
+      'Understanding the V-shape',
+      jsonb_build_object(
+        'prompt', 'The graph of y = |x| comes from two simple rules.',
+        'workedSteps', jsonb_build_array(
+          'When x >= 0, |x| = x.',
+          'When x < 0, |x| = -x.',
+          'That gives a V shape with vertex at the origin.'
+        ),
+        'ctaLabel', 'Continue to transformations'
+      ),
+      null,
+      array['graphs', 'piecewise-thinking'],
+      'support'
+    ),
+    (
+      v_node_transform_check,
+      v_version_id,
+      'transformation-check',
+      'question',
+      'Shifting the graph',
+      jsonb_build_object(
+        'prompt', 'Which option best describes the graph of y = |x - 2|?',
+        'choices', jsonb_build_array(
+          jsonb_build_object('label', 'Same V shape, shifted 2 units right, with vertex at (2,0).', 'value', 'right_2'),
+          jsonb_build_object('label', 'Same V shape, shifted 2 units left, with vertex at (-2,0).', 'value', 'left_2'),
+          jsonb_build_object('label', 'Same V shape, shifted 2 units up, with vertex at (0,2).', 'value', 'up_2'),
+          jsonb_build_object('label', 'Stretched V shape with vertex still at (0,0).', 'value', 'stretch')
+        )
+      ),
+      jsonb_build_object(
+        'type', 'multiple_choice',
+        'correctAnswer', 'right_2',
+        'maxScore', 15
+      ),
+      array['graphs', 'transformations'],
+      'focus'
+    ),
+    (
+      v_node_transform_remediation,
+      v_version_id,
+      'transformation-remediation',
+      'worked_example',
+      'How y = |x-a| moves',
+      jsonb_build_object(
+        'prompt', 'The expression y = |x-a| shifts the graph of y = |x| horizontally.',
+        'workedSteps', jsonb_build_array(
+          'Replacing x with x-a shifts the graph a units to the right.',
+          'So y = |x-2| is the same V shape moved 2 units right.',
+          'Its vertex is at (2,0).'
+        ),
+        'ctaLabel', 'Continue to inequalities'
+      ),
+      null,
+      array['graphs', 'transformations'],
+      'support'
+    ),
+    (
+      v_node_inequality_check,
+      v_version_id,
+      'inequality-check',
+      'question',
+      'Distance from a point',
+      jsonb_build_object(
+        'prompt', 'Solve |x - 3| < 2.',
+        'choices', jsonb_build_array(
+          jsonb_build_object('label', '1 < x < 5', 'value', 'between_1_5'),
+          jsonb_build_object('label', 'x < 1 or x > 5', 'value', 'outside'),
+          jsonb_build_object('label', 'x < 5', 'value', 'lt_5'),
+          jsonb_build_object('label', 'x > 1', 'value', 'gt_1')
+        )
+      ),
+      jsonb_build_object(
+        'type', 'multiple_choice',
+        'correctAnswer', 'between_1_5',
+        'maxScore', 20
+      ),
+      array['inequalities', 'distance'],
+      'focus'
+    ),
+    (
+      v_node_inequality_remediation,
+      v_version_id,
+      'inequality-remediation',
+      'worked_example',
+      'Interpreting |x-3| < 2',
+      jsonb_build_object(
+        'prompt', '|x-3| < 2 means the distance from 3 is less than 2.',
+        'workedSteps', jsonb_build_array(
+          'Being less than 2 away from 3 means x stays between 1 and 5.',
+          'So the solution is 1 < x < 5.',
+          'This is a between-values interval, not two outside regions.'
+        ),
+        'ctaLabel', 'Continue to the boss'
+      ),
+      null,
+      array['inequalities', 'distance'],
+      'support'
+    ),
+    (
+      v_node_boss,
+      v_version_id,
+      'boss',
+      'question',
+      'Boss: graph and solve',
+      jsonb_build_object(
+        'prompt', 'Sketch the graph of y = |2x - 4| and hence solve the equation |2x - 4| = 2.',
+        'body', 'Choose the option that correctly identifies both the graph and the solutions.',
+        'choices', jsonb_build_array(
+          jsonb_build_object('label', 'V-shaped graph with vertex at (2,0), and the equation has solutions x = 1 and x = 3.', 'value', 'boss_correct'),
+          jsonb_build_object('label', 'V-shaped graph with vertex at (0,0), and the equation has solutions x = -1 and x = 1.', 'value', 'boss_origin'),
+          jsonb_build_object('label', 'Straight line graph, and the equation has solution x = 3 only.', 'value', 'boss_line'),
+          jsonb_build_object('label', 'V-shaped graph with vertex at (2,0), and the equation has solutions x = 2 and x = 4.', 'value', 'boss_wrong_roots')
+        )
+      ),
+      jsonb_build_object(
+        'type', 'multiple_choice',
+        'correctAnswer', 'boss_correct',
+        'maxScore', 25
+      ),
+      array['boss', 'graphs', 'equations'],
+      'boss'
+    ),
+    (
+      v_node_completion,
+      v_version_id,
+      'completion',
+      'checkpoint',
       'Lesson complete',
       jsonb_build_object(
-        'prompt', 'You finished the branching lesson.',
-        'body', 'Teachers can now see your final node history, error patterns, and mastery score.'
+        'prompt', 'You defeated the first modulus boss.',
+        'body', 'You used modulus as distance, recognised the graph of y = |x|, tracked the shift in y = |x-a|, and solved simple equations and inequalities.',
+        'ctaLabel', 'Complete lesson'
       ),
       null,
-      array['wrap-up'],
+      array['summary', 'modulus'],
       'focus'
+    ),
+    (
+      v_node_boss_remediation,
+      v_version_id,
+      'boss-remediation',
+      'worked_example',
+      'Boss review',
+      jsonb_build_object(
+        'prompt', '|2x - 4| = |2(x - 2)| = 2|x - 2|, so the graph is still V-shaped with vertex at (2,0).',
+        'workedSteps', jsonb_build_array(
+          'To solve |2x - 4| = 2, set 2x - 4 = 2 or 2x - 4 = -2.',
+          'From 2x - 4 = 2, we get x = 3.',
+          'From 2x - 4 = -2, we get x = 1.'
+        ),
+        'ctaLabel', 'Finish the lesson'
+      ),
+      null,
+      array['boss', 'review'],
+      'support'
     )
   on conflict (id) do update set
     title = excluded.title,
@@ -269,39 +330,50 @@ begin
     layout_type = excluded.layout_type;
 
   update public.unit_versions
-  set entry_node_id = node_intro
-  where id = version_id;
+  set entry_node_id = v_node_intro
+  where id = v_version_id;
 
-  delete from public.node_transitions where from_node_id in (
-    node_intro, node_starter, node_hint, node_sign_example, node_worked_example,
-    node_recovery, node_extension, node_core_checkpoint, node_review
+  delete from public.node_transitions
+  where from_node_id in (
+    v_node_intro,
+    v_node_basic_check,
+    v_node_basic_remediation,
+    v_node_graph_check,
+    v_node_graph_remediation,
+    v_node_transform_check,
+    v_node_transform_remediation,
+    v_node_inequality_check,
+    v_node_inequality_remediation,
+    v_node_boss,
+    v_node_completion,
+    v_node_boss_remediation
   );
 
   insert into public.node_transitions (from_node_id, to_node_id, condition_type, condition_json, priority_order)
   values
-    (node_intro, node_starter, 'always', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_starter, node_extension, 'correct', jsonb_build_object('max_attempt_number', 1), 10),
-    (node_starter, node_hint, 'incorrect', jsonb_build_object('max_attempt_number', 1), 20),
-    (node_starter, node_sign_example, 'misconception', jsonb_build_object('misconception_code', 'sign_error', 'min_attempt_number', 2), 10),
-    (node_starter, node_worked_example, 'incorrect_twice', jsonb_build_object('min_attempt_number', 2), 20),
-    (node_starter, node_core_checkpoint, 'correct', jsonb_build_object('min_attempt_number', 2), 30),
-    (node_hint, node_starter, 'always', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_sign_example, node_recovery, 'always', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_worked_example, node_recovery, 'always', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_recovery, node_core_checkpoint, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_recovery, node_worked_example, 'incorrect_twice', jsonb_build_object('min_attempt_number', 2), 20),
-    (node_extension, node_core_checkpoint, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_extension, node_review, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
-    (node_core_checkpoint, node_review, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
-    (node_core_checkpoint, node_review, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
-    (node_review, node_finish, 'always', jsonb_build_object('min_attempt_number', 1), 10);
+    (v_node_intro, v_node_basic_check, 'always', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_basic_check, v_node_graph_check, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_basic_check, v_node_basic_remediation, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
+    (v_node_basic_remediation, v_node_graph_check, 'always', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_graph_check, v_node_transform_check, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_graph_check, v_node_graph_remediation, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
+    (v_node_graph_remediation, v_node_transform_check, 'always', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_transform_check, v_node_inequality_check, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_transform_check, v_node_transform_remediation, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
+    (v_node_transform_remediation, v_node_inequality_check, 'always', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_inequality_check, v_node_boss, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_inequality_check, v_node_inequality_remediation, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
+    (v_node_inequality_remediation, v_node_boss, 'always', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_boss, v_node_completion, 'correct', jsonb_build_object('min_attempt_number', 1), 10),
+    (v_node_boss, v_node_boss_remediation, 'incorrect', jsonb_build_object('min_attempt_number', 1), 20),
+    (v_node_boss_remediation, v_node_completion, 'always', jsonb_build_object('min_attempt_number', 1), 10);
 
   insert into public.assignments (id, class_id, unit_version_id, assigned_by, open_at, due_at, is_live)
   values (
     v_assignment_id,
-    class_id,
-    version_id,
-    teacher_id,
+    v_class_id,
+    v_version_id,
+    v_teacher_id,
     timezone('utc', now()) - interval '1 day',
     timezone('utc', now()) + interval '10 day',
     true
@@ -324,9 +396,9 @@ begin
     completed_at
   )
   values
-    (v_assignment_id, student_a, node_intro, 'in_progress', 0, timezone('utc', now()) - interval '30 minute', null),
-    (v_assignment_id, student_b, node_sign_example, 'in_progress', 10, timezone('utc', now()) - interval '12 minute', null),
-    (v_assignment_id, student_c, node_core_checkpoint, 'in_progress', 45, timezone('utc', now()) - interval '5 minute', null)
+    (v_assignment_id, v_student_a, v_node_intro, 'in_progress', 0, timezone('utc', now()) - interval '30 minute', null),
+    (v_assignment_id, v_student_b, v_node_graph_remediation, 'in_progress', 15, timezone('utc', now()) - interval '12 minute', null),
+    (v_assignment_id, v_student_c, v_node_boss, 'in_progress', 65, timezone('utc', now()) - interval '5 minute', null)
   on conflict (assignment_id, student_id) do update set
     current_node_id = excluded.current_node_id,
     status = excluded.status,
@@ -351,64 +423,93 @@ begin
   )
   values
     (
-      student_b,
+      v_student_b,
       v_assignment_id,
-      node_starter,
+      v_node_basic_check,
       1,
-      jsonb_build_object('value', '5'),
+      jsonb_build_object('value', 'positive_only'),
       false,
-      'sign_error',
+      null,
       0,
       32,
       timezone('utc', now()) - interval '16 minute'
     ),
     (
-      student_b,
+      v_student_b,
       v_assignment_id,
-      node_starter,
-      2,
-      jsonb_build_object('value', '5'),
+      v_node_graph_check,
+      1,
+      jsonb_build_object('value', 'shifted_up'),
       false,
-      'sign_error',
+      null,
       0,
       29,
       timezone('utc', now()) - interval '13 minute'
     ),
     (
-      student_c,
+      v_student_c,
       v_assignment_id,
-      node_starter,
+      v_node_basic_check,
       1,
-      jsonb_build_object('value', '13'),
+      jsonb_build_object('value', 'pm_4'),
       true,
       null,
+      15,
       20,
-      20,
-      timezone('utc', now()) - interval '11 minute'
+      timezone('utc', now()) - interval '20 minute'
     ),
     (
-      student_c,
+      v_student_c,
       v_assignment_id,
-      node_extension,
+      v_node_graph_check,
       1,
-      jsonb_build_object('value', '7'),
+      jsonb_build_object('value', 'v_origin'),
       true,
       null,
-      25,
+      15,
       24,
-      timezone('utc', now()) - interval '7 minute'
+      timezone('utc', now()) - interval '18 minute'
+    ),
+    (
+      v_student_c,
+      v_assignment_id,
+      v_node_transform_check,
+      1,
+      jsonb_build_object('value', 'right_2'),
+      true,
+      null,
+      15,
+      22,
+      timezone('utc', now()) - interval '15 minute'
+    ),
+    (
+      v_student_c,
+      v_assignment_id,
+      v_node_inequality_check,
+      1,
+      jsonb_build_object('value', 'between_1_5'),
+      true,
+      null,
+      20,
+      26,
+      timezone('utc', now()) - interval '10 minute'
     );
 
   insert into public.student_progress_events (student_id, assignment_id, event_type, event_payload_json, created_at)
   values
-    (student_b, v_assignment_id, 'entered_node', jsonb_build_object('node_id', node_starter), timezone('utc', now()) - interval '16 minute'),
-    (student_b, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', node_starter, 'attempt_number', 1, 'is_correct', false, 'misconception_code', 'sign_error'), timezone('utc', now()) - interval '16 minute'),
-    (student_b, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', node_starter, 'to_node_id', node_hint), timezone('utc', now()) - interval '16 minute'),
-    (student_b, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', node_starter, 'attempt_number', 2, 'is_correct', false, 'misconception_code', 'sign_error'), timezone('utc', now()) - interval '13 minute'),
-    (student_b, v_assignment_id, 'branched_to_remediation', jsonb_build_object('from_node_id', node_starter, 'to_node_id', node_sign_example), timezone('utc', now()) - interval '13 minute'),
-    (student_c, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', node_starter, 'attempt_number', 1, 'is_correct', true), timezone('utc', now()) - interval '11 minute'),
-    (student_c, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', node_starter, 'to_node_id', node_extension), timezone('utc', now()) - interval '11 minute'),
-    (student_c, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', node_extension, 'attempt_number', 1, 'is_correct', true), timezone('utc', now()) - interval '7 minute'),
-    (student_c, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', node_extension, 'to_node_id', node_core_checkpoint), timezone('utc', now()) - interval '7 minute');
+    (v_student_b, v_assignment_id, 'entered_node', jsonb_build_object('node_id', v_node_basic_check), timezone('utc', now()) - interval '16 minute'),
+    (v_student_b, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', v_node_basic_check, 'attempt_number', 1, 'is_correct', false), timezone('utc', now()) - interval '16 minute'),
+    (v_student_b, v_assignment_id, 'branched_to_remediation', jsonb_build_object('from_node_id', v_node_basic_check, 'to_node_id', v_node_basic_remediation), timezone('utc', now()) - interval '16 minute'),
+    (v_student_b, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', v_node_basic_remediation, 'to_node_id', v_node_graph_check), timezone('utc', now()) - interval '15 minute'),
+    (v_student_b, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', v_node_graph_check, 'attempt_number', 1, 'is_correct', false), timezone('utc', now()) - interval '13 minute'),
+    (v_student_b, v_assignment_id, 'branched_to_remediation', jsonb_build_object('from_node_id', v_node_graph_check, 'to_node_id', v_node_graph_remediation), timezone('utc', now()) - interval '13 minute'),
+    (v_student_c, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', v_node_basic_check, 'attempt_number', 1, 'is_correct', true), timezone('utc', now()) - interval '20 minute'),
+    (v_student_c, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', v_node_basic_check, 'to_node_id', v_node_graph_check), timezone('utc', now()) - interval '20 minute'),
+    (v_student_c, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', v_node_graph_check, 'attempt_number', 1, 'is_correct', true), timezone('utc', now()) - interval '18 minute'),
+    (v_student_c, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', v_node_graph_check, 'to_node_id', v_node_transform_check), timezone('utc', now()) - interval '18 minute'),
+    (v_student_c, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', v_node_transform_check, 'attempt_number', 1, 'is_correct', true), timezone('utc', now()) - interval '15 minute'),
+    (v_student_c, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', v_node_transform_check, 'to_node_id', v_node_inequality_check), timezone('utc', now()) - interval '15 minute'),
+    (v_student_c, v_assignment_id, 'submitted_answer', jsonb_build_object('node_id', v_node_inequality_check, 'attempt_number', 1, 'is_correct', true), timezone('utc', now()) - interval '10 minute'),
+    (v_student_c, v_assignment_id, 'advanced', jsonb_build_object('from_node_id', v_node_inequality_check, 'to_node_id', v_node_boss), timezone('utc', now()) - interval '10 minute');
 end
 $$;

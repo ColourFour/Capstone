@@ -62,7 +62,7 @@ export default function LoginPage() {
             NEXT_PUBLIC_SUPABASE_URL
           </code>
           <code className="ml-2 rounded bg-white px-2 py-1">
-            NEXT_PUBLIC_SUPABASE_ANON_KEY
+            NEXT_PUBLIC_SUPABASE_PUBLISHABLE_DEFAULT_KEY
           </code>
           <code className="ml-2 rounded bg-white px-2 py-1">
             SUPABASE_SERVICE_ROLE_KEY

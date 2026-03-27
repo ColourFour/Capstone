@@ -53,23 +53,43 @@ export const getAssignmentForStudent = cache(async (assignmentId: string, studen
 });
 
 export const listStudentAssignments = cache(async (studentId: string) => {
-  const { data, error } = await admin()
+  const { data: enrollments, error: enrollmentsError } = await admin()
     .from("class_enrollments")
     .select(
       `
+        class_id,
+        classes!inner(id, name)
+      `
+    )
+    .eq("student_id", studentId)
+    .eq("status", "active");
+
+  if (enrollmentsError) {
+    throw enrollmentsError;
+  }
+
+  const classRows = enrollments ?? [];
+  const classIds = classRows.map((row) => row.class_id);
+
+  if (classIds.length === 0) {
+    return [];
+  }
+
+  const { data: assignments, error: assignmentsError } = await admin()
+    .from("assignments")
+    .select(
+      `
+        id,
+        class_id,
+        unit_version_id,
+        open_at,
+        due_at,
+        is_live,
         classes!inner(id, name),
-        assignments!inner(
-          id,
-          class_id,
-          unit_version_id,
-          open_at,
-          due_at,
-          is_live,
-          unit_versions!inner(
-            units!inner(title)
-          )
+        unit_versions!inner(
+          units!inner(title)
         ),
-        student_assignment_progress(
+        student_assignment_progress!left(
           id,
           current_node_id,
           status,
@@ -78,32 +98,32 @@ export const listStudentAssignments = cache(async (studentId: string) => {
         )
       `
     )
-    .eq("student_id", studentId)
-    .eq("status", "active");
+    .in("class_id", classIds)
+    .eq("student_assignment_progress.student_id", studentId)
+    .order("due_at", { ascending: true });
 
-  if (error) {
-    throw error;
+  if (assignmentsError) {
+    throw assignmentsError;
   }
 
-  return (data ?? []).flatMap((row) => {
-    const assignment = firstRelation(row.assignments);
+  return (assignments ?? []).flatMap((row) => {
     const progress = firstRelation(row.student_assignment_progress);
     const classroom = firstRelation(row.classes);
-    const unitVersion = firstRelation(assignment?.unit_versions);
+    const unitVersion = firstRelation(row.unit_versions);
     const unit = firstRelation(unitVersion?.units);
 
-    if (!assignment || !classroom) {
+    if (!classroom) {
       return [];
     }
 
     return [
       {
-        id: assignment.id,
-        class_id: assignment.class_id,
-        unit_version_id: assignment.unit_version_id,
-        open_at: assignment.open_at,
-        due_at: assignment.due_at,
-        is_live: assignment.is_live,
+        id: row.id,
+        class_id: row.class_id,
+        unit_version_id: row.unit_version_id,
+        open_at: row.open_at,
+        due_at: row.due_at,
+        is_live: row.is_live,
         unit_title: unit?.title ?? "Untitled unit",
         class_name: classroom.name,
         progress_id: progress?.id ?? null,
