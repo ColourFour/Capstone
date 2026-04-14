@@ -1,0 +1,424 @@
+{
+  "region": null,
+  "latest_capture": null,
+  "latest_fen": "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1",
+  "message": "Local self-play move: b1c3",
+  "legal_moves": [],
+  "best_move": "b8c6",
+  "orientation": "white-bottom",
+  "automation_running": false,
+  "mouse_automation": false,
+  "accessibility_enabled": false,
+  "local_game": {
+    "fen": "rnbqkbnr/pppppppp/8/8/8/2N5/PPPPPPPP/R1BQKBNR b KQkq - 1 1",
+    "board": [
+      [
+        {
+          "square": "a8",
+          "piece": "r",
+          "glyph": "\u265c",
+          "dark": false
+        },
+        {
+          "square": "b8",
+          "piece": "n",
+          "glyph": "\u265e",
+          "dark": true
+        },
+        {
+          "square": "c8",
+          "piece": "b",
+          "glyph": "\u265d",
+          "dark": false
+        },
+        {
+          "square": "d8",
+          "piece": "q",
+          "glyph": "\u265b",
+          "dark": true
+        },
+        {
+          "square": "e8",
+          "piece": "k",
+          "glyph": "\u265a",
+          "dark": false
+        },
+        {
+          "square": "f8",
+          "piece": "b",
+          "glyph": "\u265d",
+          "dark": true
+        },
+        {
+          "square": "g8",
+          "piece": "n",
+          "glyph": "\u265e",
+          "dark": false
+        },
+        {
+          "square": "h8",
+          "piece": "r",
+          "glyph": "\u265c",
+          "dark": true
+        }
+      ],
+      [
+        {
+          "square": "a7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": true
+        },
+        {
+          "square": "b7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": false
+        },
+        {
+          "square": "c7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": true
+        },
+        {
+          "square": "d7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": false
+        },
+        {
+          "square": "e7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": true
+        },
+        {
+          "square": "f7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": false
+        },
+        {
+          "square": "g7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": true
+        },
+        {
+          "square": "h7",
+          "piece": "p",
+          "glyph": "\u265f",
+          "dark": false
+        }
+      ],
+      [
+        {
+          "square": "a6",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "b6",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "c6",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "d6",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "e6",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "f6",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "g6",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "h6",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        }
+      ],
+      [
+        {
+          "square": "a5",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "b5",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "c5",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "d5",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "e5",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "f5",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "g5",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "h5",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        }
+      ],
+      [
+        {
+          "square": "a4",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "b4",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "c4",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "d4",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "e4",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "f4",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "g4",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "h4",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        }
+      ],
+      [
+        {
+          "square": "a3",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "b3",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "c3",
+          "piece": "N",
+          "glyph": "\u2658",
+          "dark": true
+        },
+        {
+          "square": "d3",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "e3",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "f3",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "g3",
+          "piece": null,
+          "glyph": "",
+          "dark": true
+        },
+        {
+          "square": "h3",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        }
+      ],
+      [
+        {
+          "square": "a2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": false
+        },
+        {
+          "square": "b2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": true
+        },
+        {
+          "square": "c2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": false
+        },
+        {
+          "square": "d2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": true
+        },
+        {
+          "square": "e2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": false
+        },
+        {
+          "square": "f2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": true
+        },
+        {
+          "square": "g2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": false
+        },
+        {
+          "square": "h2",
+          "piece": "P",
+          "glyph": "\u2659",
+          "dark": true
+        }
+      ],
+      [
+        {
+          "square": "a1",
+          "piece": "R",
+          "glyph": "\u2656",
+          "dark": true
+        },
+        {
+          "square": "b1",
+          "piece": null,
+          "glyph": "",
+          "dark": false
+        },
+        {
+          "square": "c1",
+          "piece": "B",
+          "glyph": "\u2657",
+          "dark": true
+        },
+        {
+          "square": "d1",
+          "piece": "Q",
+          "glyph": "\u2655",
+          "dark": false
+        },
+        {
+          "square": "e1",
+          "piece": "K",
+          "glyph": "\u2654",
+          "dark": true
+        },
+        {
+          "square": "f1",
+          "piece": "B",
+          "glyph": "\u2657",
+          "dark": false
+        },
+        {
+          "square": "g1",
+          "piece": "N",
+          "glyph": "\u2658",
+          "dark": true
+        },
+        {
+          "square": "h1",
+          "piece": "R",
+          "glyph": "\u2656",
+          "dark": false
+        }
+      ]
+    ],
+    "history": [
+      "White: b1c3"
+    ],
+    "side_to_move": "b",
+    "status": "Black to move.",
+    "depth": 2,
+    "running": false
+  }
+}
